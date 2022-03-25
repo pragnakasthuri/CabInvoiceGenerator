@@ -19,12 +19,17 @@ public class CabInvoiceGenerator {
         return Math.max(totalFare, MIN_FARE);
     }
 
-    public double calculateFare(Ride[] rides) {
+    /**
+     * This method is created to find the totalFare for given multiple rides
+     * @param rides an array of Rides
+     * @return InvoiceSummary
+     */
+    public InvoiceSummary calculateFare(Ride[] rides) {
         double totalFare = 0;
         for (Ride ride : rides) {
             totalFare += this.calculateFare(ride.getDistance(), ride.getTime());
         }
-        return totalFare;
+        return new InvoiceSummary(rides.length, totalFare);
     }
 
     /**
