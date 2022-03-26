@@ -57,8 +57,11 @@ public class CabInvoiceGenerator {
      * @param userId given user Id
      * @return InvoiceSummary
      */
-    public InvoiceSummary calculateFare(String userId) {
+    public InvoiceSummary calculateFare(String userId) throws CabInvoiceCustomException{
         List<Ride> rides = this.userRideRepository.get(userId);
+        if (rides == null) {
+            throw new CabInvoiceCustomException("Invalid User", CabInvoiceCustomException.ExceptionType.INVALID_USER);
+        }
         double totalFare = 0;
         for (Ride ride : rides) {
             totalFare += this.calculateFare(ride.getDistance(), ride.getTime(), ride.getRideType());
